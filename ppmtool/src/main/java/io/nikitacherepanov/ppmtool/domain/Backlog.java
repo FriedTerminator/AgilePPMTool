@@ -1,9 +1,7 @@
 package io.nikitacherepanov.ppmtool.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
 public class Backlog {
@@ -14,8 +12,15 @@ public class Backlog {
     private String projectIdentifier;
 
     //OneToOne with project
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="project_id", nullable = false)
+    @JsonIgnore
+    private Project project;
 
     //OneToMany project tasks
+
+    public Backlog() {
+    }
 
     public Long getId() {
         return id;
@@ -41,6 +46,11 @@ public class Backlog {
         this.projectIdentifier = projectIdentifier;
     }
 
-    public Backlog() {
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }
