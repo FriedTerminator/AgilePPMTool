@@ -5,7 +5,6 @@ import io.nikitacherepanov.ppmtool.domain.Project;
 import io.nikitacherepanov.ppmtool.exceptions.ProjectIdException;
 import io.nikitacherepanov.ppmtool.repositories.BacklogRepository;
 import io.nikitacherepanov.ppmtool.repositories.ProjectRepository;
-import org.hibernate.engine.jdbc.batch.spi.BatchKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
