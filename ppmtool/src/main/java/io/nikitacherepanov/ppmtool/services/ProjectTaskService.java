@@ -87,4 +87,15 @@ public class ProjectTaskService {
 
         return projectTask;
     }
+
+    public ProjectTask updateByProjectSequence(ProjectTask updatedTask, String backlog_id, String pt_id) {
+        ProjectTask projectTask = projectTaskRepository.findByProjectSequence(pt_id);
+        if(projectTask == null) {
+            throw new ProjectNotFoundException("Project Task '" + pt_id + "' not found");
+        }
+
+        projectTask = updatedTask;
+
+        return projectTaskRepository.save(projectTask);
+    }
 }
