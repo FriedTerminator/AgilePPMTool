@@ -39,6 +39,7 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers("/favicon.ico", "/static/**", "/public/**").permitAll() // Allow public assets
                                 .requestMatchers("/api/auth/**").permitAll() // Allow authentication endpoints
+                                .requestMatchers("/api/users/**").permitAll()
                                 .requestMatchers("/**").denyAll() // Deny all other requests (default secure configuration)
                                 .anyRequest().authenticated() // Authenticate other requests
                 );
