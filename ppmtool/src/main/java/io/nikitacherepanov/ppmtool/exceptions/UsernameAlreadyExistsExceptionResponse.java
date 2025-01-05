@@ -1,9 +1,9 @@
 package io.nikitacherepanov.ppmtool.exceptions;
 
-public class UsernameExceptionResponse {
+public class UsernameAlreadyExistsExceptionResponse {
     private String username;
 
-    public UsernameExceptionResponse(String username) {
+    public UsernameAlreadyExistsExceptionResponse(String username) {
         this.username = username;
     }
 
