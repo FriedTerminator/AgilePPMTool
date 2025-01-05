@@ -3,6 +3,7 @@ package io.nikitacherepanov.ppmtool.web;
 import io.nikitacherepanov.ppmtool.domain.User;
 import io.nikitacherepanov.ppmtool.services.MapValidationErrorService;
 import io.nikitacherepanov.ppmtool.services.UserService;
+import io.nikitacherepanov.ppmtool.validator.UserValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    private UserValidator userValidator;
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result) {
         //Validate passwords match
+        userValidator.validate(user, result);
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap != null) return errorMap;
