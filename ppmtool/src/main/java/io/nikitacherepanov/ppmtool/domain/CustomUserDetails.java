@@ -7,6 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class CustomUserDetails extends User implements UserDetails {
+    public CustomUserDetails(User user) {
+        super(user);
+    }
+
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static io.nikitacherepanov.ppmtool.security.SecurityConstants.*;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -39,7 +41,8 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers("/favicon.ico", "/static/**", "/public/**").permitAll() // Allow public assets
                                 .requestMatchers("/api/auth/**").permitAll() // Allow authentication endpoints
-                                .requestMatchers("/api/users/**").permitAll()
+                                .requestMatchers(SIGN_UP_URLS).permitAll()
+                                .requestMatchers(H2_URL).permitAll()
                                 .requestMatchers("/**").denyAll() // Deny all other requests (default secure configuration)
                                 .anyRequest().authenticated() // Authenticate other requests
                 );
