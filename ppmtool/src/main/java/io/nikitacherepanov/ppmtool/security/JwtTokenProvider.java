@@ -4,7 +4,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.nikitacherepanov.ppmtool.domain.User;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+import io.jsonwebtoken.security.Keys;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +16,11 @@ import java.util.Map;
 import static io.nikitacherepanov.ppmtool.security.SecurityConstants.EXPIRATION_TIME;
 import static io.nikitacherepanov.ppmtool.security.SecurityConstants.SECRET;
 
+@Component
 public class JwtTokenProvider {
+
+    private final Key key = Keys.hmacShaKeyFor(SecurityConstants.SECRET.getBytes(StandardCharsets.UTF_8));
+
     public String generateToken(Authentication authentication) {
         User user = (User)authentication.getPrincipal();
         Date now = new Date(System.currentTimeMillis());
@@ -31,7 +39,7 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
     }
 
