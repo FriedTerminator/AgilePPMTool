@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static io.nikitacherepanov.ppmtool.security.SecurityConstants.H2_URL;
 import static io.nikitacherepanov.ppmtool.security.SecurityConstants.SIGN_UP_URLS;
@@ -31,6 +32,9 @@ public class SecurityConfig {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {return new JwtAuthenticationFilter();}
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -65,9 +69,10 @@ public class SecurityConfig {
                                 .requestMatchers("/api/auth/**").permitAll() // Allow authentication endpoints
                                 .requestMatchers(SIGN_UP_URLS).permitAll()
                                 .requestMatchers(H2_URL).permitAll()
-                                .requestMatchers("/**").denyAll() // Deny all other requests (default secure configuration)
-                                .anyRequest().authenticated() // Authenticate other requests
+                                .anyRequest().authenticated()// Authenticate other requests
                 );
+
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
