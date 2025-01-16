@@ -9,8 +9,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
+    Logger logger = Logger.getLogger(CustomUserDetailsService.class.getName());
 
     @Autowired
     UserRepository userRepository;
@@ -28,6 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public User loadUserById(Long id) {
         User user = userRepository.getById(id);
+        logger.log(Level.INFO, "user logged {0}", user.getUsername());
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found with ID: " + id);
