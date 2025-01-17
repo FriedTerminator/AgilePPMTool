@@ -8,7 +8,6 @@ import io.nikitacherepanov.ppmtool.exceptions.ProjectNotFoundException;
 import io.nikitacherepanov.ppmtool.repositories.BacklogRepository;
 import io.nikitacherepanov.ppmtool.repositories.ProjectRepository;
 import io.nikitacherepanov.ppmtool.repositories.UserRepository;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,14 +71,8 @@ public class ProjectService {
     }
 
 
-    public void deleteProjectByIdentifier(String projectid){
-        Project project = projectRepository.findByProjectIdentifier(projectid.toUpperCase());
-
-        if(project == null){
-            throw  new  ProjectIdException("Cannot Project with ID '"+projectid+"'. This project does not exist");
-        }
-
-        projectRepository.delete(project);
+    public void deleteProjectByIdentifier(String projectid, String username){
+        projectRepository.delete(findProjectByIdentifier(projectid, username));
     }
 
 }
