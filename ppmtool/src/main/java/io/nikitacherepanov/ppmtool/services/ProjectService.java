@@ -4,6 +4,7 @@ import io.nikitacherepanov.ppmtool.domain.Backlog;
 import io.nikitacherepanov.ppmtool.domain.Project;
 import io.nikitacherepanov.ppmtool.domain.User;
 import io.nikitacherepanov.ppmtool.exceptions.ProjectIdException;
+import io.nikitacherepanov.ppmtool.exceptions.ProjectNotFoundException;
 import io.nikitacherepanov.ppmtool.repositories.BacklogRepository;
 import io.nikitacherepanov.ppmtool.repositories.ProjectRepository;
 import io.nikitacherepanov.ppmtool.repositories.UserRepository;
@@ -50,17 +51,18 @@ public class ProjectService {
     }
 
 
-    public Project findProjectByIdentifier(String projectId){
-
+    public Project findProjectByIdentifier(String projectId, String username){
         //Only want to return the project if the user looking for it is the owner
 
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
 
         if(project == null){
             throw new ProjectIdException("Project ID '"+projectId+"' does not exist");
-
         }
 
+        if(!project.getProjectLeader().equals(username)) {
+            throw new ProjectNotFoundException("Project not found in your account");
+        }
 
         return project;
     }
