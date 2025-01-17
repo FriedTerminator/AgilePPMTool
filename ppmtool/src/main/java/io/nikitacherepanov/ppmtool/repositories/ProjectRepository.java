@@ -16,6 +16,8 @@ public interface ProjectRepository extends CrudRepository<Project, Long> {
     @Override
     Iterable<Project> findAll();
 
+    Iterable<Project> findAllByProjectLeader(String username);
+
     @Query("SELECT p FROM Project p JOIN FETCH p.user WHERE p.projectIdentifier = :projectIdentifier")
     Optional<Project> findByProjectIdentifierWithUser(@Param("projectIdentifier") String projectIdentifier);
 
